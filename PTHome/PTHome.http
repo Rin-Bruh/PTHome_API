@@ -1,6 +1,6 @@
 @PTHome_HostAddress = http://localhost:5171
 
-GET {{PTHome_HostAddress}}/weatherforecast/
+GET {{PTHome_HostAddress}}/swagger/
 Accept: application/json
 
 ###
