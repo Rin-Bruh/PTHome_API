@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Queries>
+	<AddHouse>		
+		<![CDATA[
+			INSERT INTO doanchuyennganh2.house(HouseId, Name, Address, WardId, Image, Longitude, Lastitude, HouseTypeId, OwnerId, CertificateOfOwnership, CreatedBy, CreateTime, UpdatedTime, DisableTime) 
+					         VALUES (@HouseId, @Name, @Address, @WardId, @Image, @Longitude, @Lastitude, @HouseTypeId, @OwnerId, @CertificateOfOwnership, @CreatedBy, @CreateTime, @UpdatedTime, @DisableTime);
+		]]>
+	</AddHouse>
+	<ReadAllHouse>
+		<![CDATA[
+			SELECT * 
+			FROM doanchuyennganh2.house
+			WHERE Status=1;
+		]]>
+	</ReadAllHouse>
+	<UpdateAllHouseById>
+		<![CDATA[
+			UPDATE doanchuyennganh2.house
+			SET Name=@Name, 
+				Address=@Address, 
+				WardId=@WardId, 
+				Image=@Image, 
+				Longitude=@Longitude, 
+				Lastitude=@Lastitude, 
+				HouseTypeId=@HouseTypeId, 
+				OwnerId=@OwnerId, 
+				CertificateOfOwnership=@CertificateOfOwnership, 
+				CreatedBy=@CreatedBy,  
+				UpdatedTime=@UpdatedTime, 
+				DisableTime=@DisableTime
+			WHERE HouseId=@HouseId;
+		]]>
+	</UpdateAllHouseById>
+	<DeleteHouseById>
+		<![CDATA[
+			DELETE
+			FROM doanchuyennganh2.house
+			WHERE HouseId=@HouseId;
+		]]>
+	</DeleteHouseById>
+	<ReadHouseById>
+		<![CDATA[
+			SELECT * 
+			FROM doanchuyennganh2.house
+			WHERE HouseId=@HouseId;
+		]]>
+	</ReadHouseById>
+	<AddUser>		
+		<![CDATA[
+			INSERT INTO doanchuyennganh2.user(UserId, Email, Phone, FullName, DateOfBirth, RoleId, Image, CitizenNumber, CitizenNumberDate, Address, Gender, UniversityId, CreatedTime, LastModified) 
+					         VALUES (@UserId, @Email, @Phone, @FullName, @DateOfBirth, @RoleId, @Image, @CitizenNumber, @CitizenNumberDate, @Address, @Gender, @UniversityId, @CreatedTime, @LastModified);
+		]]>
+	</AddUser>
+</Queries>
