@@ -157,5 +157,97 @@ namespace PTHome.Controllers
             }
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ReadAllUser()
+        {
+            ReadAllUserResponse response = new ReadAllUserResponse();
+            _logger.LogInformation($"ReadAllUser Api Calling ");
+            try
+            {
+                response = await _crudApplicationSL.ReadAllUser();
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message, Data = response.readAllUser });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"ReadAllUser Controller Error => {ex.Message}");
+                return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
+            }
+            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message, Data = response.readAllUser });
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAllUserById(UpdateAllUserByIdRequest request)
+        {
+            UpdateAllUserByIdResponse response = new UpdateAllUserByIdResponse();
+            _logger.LogInformation($"UpdateAllUserById Api Calling {JsonConvert.SerializeObject(request)}");
+            try
+            {
+                response = await _crudApplicationSL.UpdateAllUserById(request);
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"UpdateAllUserById Controller Error => {ex.Message}");
+                return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
+            }
+            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUserById(DeleteUserByIdRequest request)
+        {
+            DeleteUserByIdResponse response = new DeleteUserByIdResponse();
+            _logger.LogInformation($"DeleteUserById Api Calling ..");
+            try
+            {
+                response = await _crudApplicationSL.DeleteUserById(request);
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"DeleteUserById Controller Error => {ex.Message}");
+                return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
+            }
+            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReadUserById(ReadUserByIdRequest request)
+        {
+            ReadUserByIdResponse response = new ReadUserByIdResponse();
+            _logger.LogInformation($"ReadUserById Api Calling {JsonConvert.SerializeObject(request)}");
+            try
+            {
+                response = await _crudApplicationSL.ReadUserById(request);
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"ReadUserById Controller Error => {ex.Message}");
+                return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
+            }
+            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message, data = response.Data });
+        }
     }
 }

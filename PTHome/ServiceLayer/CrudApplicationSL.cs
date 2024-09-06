@@ -49,6 +49,28 @@ namespace PTHome.ServiceLayer
             return await _crudApplicationRL.AddUser(request);
         }
 
-        
+        public async Task<ReadAllUserResponse> ReadAllUser()
+        {
+            _logger.LogInformation("ReadAllUser Method calling in Service Layer");
+            return await _crudApplicationRL.ReadAllUser();
+        }
+
+        public async Task<UpdateAllUserByIdResponse> UpdateAllUserById(UpdateAllUserByIdRequest request)
+        {
+            _logger.LogInformation("UpdateAllUserById Method calling in Service Layer");
+            return await _crudApplicationRL.UpdateAllUserById(request);
+        }
+
+        public async Task<DeleteUserByIdResponse> DeleteUserById(DeleteUserByIdRequest request)
+        {
+            _logger.LogInformation("DeleteUserById Method calling in Service Layer");
+            return await _crudApplicationRL.DeleteUserById(request);
+        }
+
+        public async Task<ReadUserByIdResponse> ReadUserById(ReadUserByIdRequest request)
+        {
+            _logger.LogInformation("ReadUserById Method calling in Service Layer");
+            return await _crudApplicationRL.ReadUserById(request);
+        }
     }
 }

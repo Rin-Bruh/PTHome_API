@@ -11,5 +11,9 @@ namespace PTHome.ServiceLayer
         public Task<DeleteHouseByIdResponse> DeleteHouseById(DeleteHouseByIdRequest request); 
         public Task<ReadHouseByIdResponse> ReadHouseById(ReadHouseByIdRequest request);
         public Task<AddUserResponse> AddUser(AddUserRequest request);
+        public Task<ReadAllUserResponse> ReadAllUser();
+        public Task<UpdateAllUserByIdResponse> UpdateAllUserById(UpdateAllUserByIdRequest request);
+        public Task<DeleteUserByIdResponse> DeleteUserById(DeleteUserByIdRequest request);
+        public Task<ReadUserByIdResponse> ReadUserById(ReadUserByIdRequest request);
     }
 }
