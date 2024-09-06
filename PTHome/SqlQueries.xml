@@ -51,4 +51,42 @@
 					         VALUES (@UserId, @Email, @Phone, @FullName, @DateOfBirth, @RoleId, @Image, @CitizenNumber, @CitizenNumberDate, @Address, @Gender, @UniversityId, @CreatedTime, @LastModified);
 		]]>
 	</AddUser>
+	<ReadAllUser>
+		<![CDATA[
+			SELECT * 
+			FROM doanchuyennganh2.user
+			WHERE Status=1;
+		]]>
+	</ReadAllUser>
+	<UpdateAllUserById>
+		<![CDATA[
+			UPDATE doanchuyennganh2.user
+			SET Phone=@Phone, 
+				FullName=@FullName, 
+				DateOfBirth=@DateOfBirth, 
+				RoleId=@RoleId, 
+				Image=@Image, 
+				CitizenNumber=@CitizenNumber, 
+				CitizenNumberDate=@CitizenNumberDate, 
+				Address=@Address, 
+				Gender=@Gender, 
+				UniversityId=@UniversityId,  
+				LastModified=@LastModified
+			WHERE UserId=@UserId;
+		]]>
+	</UpdateAllUserById>
+	<DeleteUserById>
+		<![CDATA[
+			DELETE
+			FROM doanchuyennganh2.user
+			WHERE UserId=@UserId;
+		]]>
+	</DeleteUserById>
+	<ReadUserById>
+		<![CDATA[
+			SELECT * 
+			FROM doanchuyennganh2.user
+			WHERE UserId=@UserId;
+		]]>
+	</ReadUserById>
 </Queries>

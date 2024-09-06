@@ -11,5 +11,9 @@
         public static string DeleteHouseById { get { return _sqlQueryConfiguration["DeleteHouseById"]; } }
         public static string ReadHouseById { get { return _sqlQueryConfiguration["ReadHouseById"]; } }
         public static string AddUser { get { return _sqlQueryConfiguration["AddUser"]; } }
+        public static string ReadAllUser { get { return _sqlQueryConfiguration["ReadAllUser"]; } }
+        public static string UpdateAllUserById { get { return _sqlQueryConfiguration["UpdateAllUserById"]; } }
+        public static string DeleteUserById { get { return _sqlQueryConfiguration["DeleteUserById"]; } }
+        public static string ReadUserById { get { return _sqlQueryConfiguration["ReadUserById"]; } }
     }
 }
