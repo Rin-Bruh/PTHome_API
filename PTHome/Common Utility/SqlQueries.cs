@@ -15,5 +15,9 @@
         public static string UpdateAllUserById { get { return _sqlQueryConfiguration["UpdateAllUserById"]; } }
         public static string DeleteUserById { get { return _sqlQueryConfiguration["DeleteUserById"]; } }
         public static string ReadUserById { get { return _sqlQueryConfiguration["ReadUserById"]; } }
+        public static string AddContract { get { return _sqlQueryConfiguration["AddContract"]; } }
+        public static string ReadAllContract { get { return _sqlQueryConfiguration["ReadAllContract"]; } }
+        public static string AddContractHistory { get { return _sqlQueryConfiguration["AddContractHistory"]; } }
+        public static string ReadAllContractHistory { get { return _sqlQueryConfiguration["ReadAllContractHistory"]; } }
     }
 }

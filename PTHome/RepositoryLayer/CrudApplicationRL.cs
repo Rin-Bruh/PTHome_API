@@ -1,5 +1,7 @@
 ﻿using MySqlConnector;
 using PTHome.Common_Utility;
+using PTHome.CommonLayer.Models.Conntract.PTHome.CommonLayer.Models.Conntract;
+using PTHome.CommonLayer.Models.Contract;
 using PTHome.CommonLayer.Models.House;
 using PTHome.CommonLayer.Models.User;
 
@@ -624,6 +626,252 @@ namespace PTHome.RepositoryLayer
                 response.IsSuccess = false;
                 response.Message = ex.Message;
                 _logger.LogError($"ReadUserById Repository Layer Error : {ex.Message}");
+            }
+            finally
+            {
+                await _mySqlConnection.CloseAsync();
+                await _mySqlConnection.DisposeAsync();
+            }
+            return response;
+        }
+
+        public async Task<AddContractResponse> AddContract(AddContractRequest request)
+        {
+            _logger.LogInformation("AddContract Method calling in Repository Layer");
+            AddContractResponse response = new AddContractResponse();
+            response.IsSuccess = true;
+            response.Message = "Success";
+            try
+            {
+                if (_mySqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    await _mySqlConnection.OpenAsync();
+                }
+
+                using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.AddContract, _mySqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.Text;
+                    sqlCommand.CommandTimeout = 180;
+                    sqlCommand.Parameters.AddWithValue("@ContractId", request.ContractId);
+                    sqlCommand.Parameters.AddWithValue("@RentEntityId", request.RentEntityId);
+                    sqlCommand.Parameters.AddWithValue("@DateSigned", request.DateSigned);
+                    sqlCommand.Parameters.AddWithValue("@StartRentDate", request.StartRentDate);
+                    sqlCommand.Parameters.AddWithValue("@CreatedTime", request.CreatedTime);
+                    sqlCommand.Parameters.AddWithValue("@UpdateTime", request.UpdateTime);
+                    int Status = await sqlCommand.ExecuteNonQueryAsync();
+                    if (Status <= 0)
+                    {
+                        response.IsSuccess = false;
+                        response.Message = "AddContract Query Not Executed";
+                        _logger.LogError("AddContract Query Not Executed");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"AddContract Repository Layer Error : {ex.Message}");
+            }
+            finally
+            {
+                await _mySqlConnection.CloseAsync();
+                await _mySqlConnection.DisposeAsync();
+
+            }
+            return response;
+        }
+
+        public async Task<ReadAllContractResponse> ReadAllContract()
+        {
+            _logger.LogInformation("ReadAllContract Repository Layer Calling");
+            ReadAllContractResponse response = new ReadAllContractResponse();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            try
+            {
+                if (_mySqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    await _mySqlConnection.OpenAsync();
+                }
+                using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadAllContract, _mySqlConnection))
+                {
+                    try
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.Text;
+                        sqlCommand.CommandTimeout = 180;
+                        using (MySqlDataReader dataReader = await sqlCommand.ExecuteReaderAsync())
+                        {
+                            if (dataReader.HasRows)
+                            {
+                                response.readAllContract = new List<GetReadAllContract>();
+                                while (await dataReader.ReadAsync())
+                                {
+                                    GetReadAllContract getData = new GetReadAllContract();
+                                    getData.ContractId = dataReader["ContractId"] != DBNull.Value ? Convert.ToString(dataReader["ContractId"]) : string.Empty;
+                                    getData.RentEntityId = dataReader["RentEntityId"] != DBNull.Value ? Convert.ToString(dataReader["RentEntityId"]) : string.Empty;
+                                    getData.DateSigned = dataReader["DateSigned"] != DBNull.Value ? Convert.ToDateTime(dataReader["DateSigned"]) : DateTime.MinValue;
+                                    getData.Status = dataReader["Status"] != DBNull.Value ? Convert.ToInt32(dataReader["Status"]) : 0;
+                                    getData.StartRentDate = dataReader["StartRentDate"] != DBNull.Value ? Convert.ToDateTime(dataReader["StartRentDate"]) : DateTime.MinValue;
+                                    getData.CreatedTime = dataReader["CreatedTime"] != DBNull.Value ? Convert.ToDateTime(dataReader["CreatedTime"]) : DateTime.MinValue;
+                                    getData.UpdateTime = dataReader["UpdateTime"] != DBNull.Value ? Convert.ToDateTime(dataReader["UpdateTime"]) : DateTime.MinValue;
+
+                                    response.readAllContract.Add(getData);
+                                }
+                            }
+                            else
+                            {
+                                response.IsSuccess = true;
+                                response.Message = "No Record At DataBase";
+                                _logger.LogWarning("No Record At DataBase");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        response.IsSuccess = false;
+                        response.Message = ex.Message;
+                        _logger.LogError($"ReadAllContract Repository Layer Error : {ex.Message}");
+                    }
+                    finally
+                    {
+                        await sqlCommand.DisposeAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"ReadAllContract Repository Layer Error : {ex.Message}");
+            }
+            finally
+            {
+                await _mySqlConnection.CloseAsync();
+                await _mySqlConnection.DisposeAsync();
+            }
+            return response;
+        }
+
+        public async Task<AddContractHistoryResponse> AddContractHistory(AddContractHistoryRequest request)
+        {
+            _logger.LogInformation("AddContractHistory Method calling in Repository Layer");
+            AddContractHistoryResponse response = new AddContractHistoryResponse();
+            response.IsSuccess = true;
+            response.Message = "Success";
+            try
+            {
+                if (_mySqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    await _mySqlConnection.OpenAsync();
+                }
+
+                using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.AddContractHistory, _mySqlConnection))
+                {
+                    sqlCommand.CommandType = System.Data.CommandType.Text;
+                    sqlCommand.CommandTimeout = 180;
+                    sqlCommand.Parameters.AddWithValue("@HistoryId", request.HistoryId);
+                    sqlCommand.Parameters.AddWithValue("@ContractId", request.ContractId);
+                    sqlCommand.Parameters.AddWithValue("@Price", request.Price);
+                    sqlCommand.Parameters.AddWithValue("@RenterId", request.RenterId);
+                    sqlCommand.Parameters.AddWithValue("@OwnerId", request.OwnerId);
+                    sqlCommand.Parameters.AddWithValue("@Description", request.Description);
+                    sqlCommand.Parameters.AddWithValue("@Image", request.Image);
+                    sqlCommand.Parameters.AddWithValue("@ExpiredTime", request.ExpiredTime);
+                    sqlCommand.Parameters.AddWithValue("@PeopleApplied", request.PeopleApplied);
+                    sqlCommand.Parameters.AddWithValue("@UpdatedBy", request.UpdatedBy);
+                    sqlCommand.Parameters.AddWithValue("@UpdatedTime", request.UpdatedTime);
+                    int Status = await sqlCommand.ExecuteNonQueryAsync();
+                    if (Status <= 0)
+                    {
+                        response.IsSuccess = false;
+                        response.Message = "AddContractHistory Query Not Executed";
+                        _logger.LogError("AddContractHistory Query Not Executed");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"AddContractHistory Repository Layer Error : {ex.Message}");
+            }
+            finally
+            {
+                await _mySqlConnection.CloseAsync();
+                await _mySqlConnection.DisposeAsync();
+
+            }
+            return response;
+        }
+
+        public async Task<ReadAllContractHistoryResponse> ReadAllContractHistory()
+        {
+            _logger.LogInformation("ReadAllContractHistory Repository Layer Calling");
+            ReadAllContractHistoryResponse response = new ReadAllContractHistoryResponse();
+            response.IsSuccess = true;
+            response.Message = "Successful";
+            try
+            {
+                if (_mySqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    await _mySqlConnection.OpenAsync();
+                }
+                using (MySqlCommand sqlCommand = new MySqlCommand(SqlQueries.ReadAllContractHistory, _mySqlConnection))
+                {
+                    try
+                    {
+                        sqlCommand.CommandType = System.Data.CommandType.Text;
+                        sqlCommand.CommandTimeout = 180;
+                        using (MySqlDataReader dataReader = await sqlCommand.ExecuteReaderAsync())
+                        {
+                            if (dataReader.HasRows)
+                            {
+                                response.readAllContractHistory = new List<GetReadAllContractHistory>();
+                                while (await dataReader.ReadAsync())
+                                {
+                                    GetReadAllContractHistory getData = new GetReadAllContractHistory();
+                                    getData.HistoryId = dataReader["HistoryId"] != DBNull.Value ? Convert.ToInt32(dataReader["HistoryId"]) : 0;
+                                    getData.ContractId = dataReader["ContractId"] != DBNull.Value ? Convert.ToString(dataReader["ContractId"]) : string.Empty;
+                                    getData.Price = dataReader["Price"] != DBNull.Value ? Convert.ToInt32(dataReader["Price"]) : 0;
+                                    getData.Status = dataReader["Status"] != DBNull.Value ? Convert.ToInt32(dataReader["Status"]) : 0;
+                                    getData.RenterId = dataReader["RenterId"] != DBNull.Value ? Convert.ToString(dataReader["RenterId"]) : string.Empty;
+                                    getData.OwnerId = dataReader["OwnerId"] != DBNull.Value ? Convert.ToString(dataReader["OwnerId"]) : string.Empty;
+                                    getData.Description = dataReader["Description"] != DBNull.Value ? Convert.ToString(dataReader["Description"]) : string.Empty;
+                                    getData.Image = dataReader["Image"] != DBNull.Value ? Convert.ToString(dataReader["Image"]) : string.Empty;
+                                    getData.ExpiredTime = dataReader["ExpiredTime"] != DBNull.Value ? Convert.ToDateTime(dataReader["ExpiredTime"]) : DateTime.MinValue;
+                                    getData.PeopleApplied = dataReader["PeopleApplied"] != DBNull.Value ? Convert.ToInt32(dataReader["PeopleApplied"]) : 0;
+                                    getData.UpdatedBy = dataReader["UpdatedBy"] != DBNull.Value ? Convert.ToString(dataReader["UpdatedBy"]) : string.Empty;
+                                    getData.UpdatedTime = dataReader["UpdatedTime"] != DBNull.Value ? Convert.ToDateTime(dataReader["UpdatedTime"]) : DateTime.MinValue;
+
+                                    response.readAllContractHistory.Add(getData);
+                                }
+                            }
+                            else
+                            {
+                                response.IsSuccess = true;
+                                response.Message = "No Record At DataBase";
+                                _logger.LogWarning("No Record At DataBase");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        response.IsSuccess = false;
+                        response.Message = ex.Message;
+                        _logger.LogError($"ReadAllContractHistory Repository Layer Error : {ex.Message}");
+                    }
+                    finally
+                    {
+                        await sqlCommand.DisposeAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"ReadAllContractHistory Repository Layer Error : {ex.Message}");
             }
             finally
             {

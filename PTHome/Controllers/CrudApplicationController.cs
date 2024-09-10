@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using PTHome.CommonLayer.Models.Conntract.PTHome.CommonLayer.Models.Conntract;
+using PTHome.CommonLayer.Models.Contract;
 using PTHome.CommonLayer.Models.House;
 using PTHome.CommonLayer.Models.User;
 using PTHome.ServiceLayer;
@@ -248,6 +250,98 @@ namespace PTHome.Controllers
                 return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
             }
             return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message, data = response.Data });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddContract(AddContractRequest request)
+        {
+            AddContractResponse response = new AddContractResponse();
+            _logger.LogInformation($"AddContract Api Calling {JsonConvert.SerializeObject(request)}");
+            try
+            {
+                response = await _crudApplicationSL.AddContract(request);
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"AddContract Controller Error => {ex.Message}");
+                return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
+            }
+            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ReadAllContract()
+        {
+            ReadAllContractResponse response = new ReadAllContractResponse();
+            _logger.LogInformation($"ReadAllContract Api Calling ");
+            try
+            {
+                response = await _crudApplicationSL.ReadAllContract();
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message, Data = response.readAllContract });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"ReadAllContract Controller Error => {ex.Message}");
+                return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
+            }
+            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message, Data = response.readAllContract });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddContractHistory(AddContractHistoryRequest request)
+        {
+            AddContractHistoryResponse response = new AddContractHistoryResponse();
+            _logger.LogInformation($"AddContractHistory Api Calling {JsonConvert.SerializeObject(request)}");
+            try
+            {
+                response = await _crudApplicationSL.AddContractHistory(request);
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"AddContractHistory Controller Error => {ex.Message}");
+                return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
+            }
+            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ReadAllContractHistory()
+        {
+            ReadAllContractHistoryResponse response = new ReadAllContractHistoryResponse();
+            _logger.LogInformation($"ReadAllContractHistory Api Calling ");
+            try
+            {
+                response = await _crudApplicationSL.ReadAllContractHistory();
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(new { IsSuccess = response.IsSuccess, Message = response.Message, Data = response.readAllContractHistory });
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                _logger.LogError($"ReadAllContractHistory Controller Error => {ex.Message}");
+                return BadRequest(new { IsSuccess = response.IsSuccess, Message = ex.Message });
+            }
+            return Ok(new { IsSuccess = response.IsSuccess, Message = response.Message, Data = response.readAllContractHistory });
         }
     }
 }

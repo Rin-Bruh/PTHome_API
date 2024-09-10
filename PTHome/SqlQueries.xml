@@ -89,4 +89,31 @@
 			WHERE UserId=@UserId;
 		]]>
 	</ReadUserById>
+	<AddContract>
+		<![CDATA[
+			INSERT INTO doanchuyennganh2.contract(ContractId, RentEntityId, DateSigned, StartRentDate, CreatedTime, UpdateTime) 
+					         VALUES (@ContractId, @RentEntityId, @DateSigned, @StartRentDate, @CreatedTime, @UpdateTime);
+		]]>
+	</AddContract>
+	<ReadAllContract>
+		<![CDATA[
+			SELECT * 
+			FROM doanchuyennganh2.contract
+			WHERE Status=1;
+		]]>
+	</ReadAllContract>
+	<AddContractHistory>
+		<![CDATA[
+			INSERT INTO doanchuyennganh2.contracthistory(HistoryId, ContractId, Price, RenterId, OwnerId, Description, Image, ExpiredTime, PeopleApplied, UpdatedBy, UpdatedTime) 
+					         VALUES (@HistoryId, @ContractId, @Price, @RenterId, @OwnerId, @Description, @Image, @ExpiredTime, @PeopleApplied, @UpdatedBy, @UpdatedTime);
+		]]>
+	</AddContractHistory>
+	<ReadAllContractHistory>
+		<![CDATA[
+			SELECT * 
+			FROM doanchuyennganh2.contracthistory
+			WHERE Status=1;
+		]]>
+	</ReadAllContractHistory>
+
 </Queries>
