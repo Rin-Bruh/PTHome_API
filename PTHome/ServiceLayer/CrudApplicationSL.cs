@@ -1,4 +1,6 @@
-﻿using PTHome.CommonLayer.Models.House;
+﻿using PTHome.CommonLayer.Models.Conntract.PTHome.CommonLayer.Models.Conntract;
+using PTHome.CommonLayer.Models.Contract;
+using PTHome.CommonLayer.Models.House;
 using PTHome.CommonLayer.Models.User;
 using PTHome.RepositoryLayer;
 
@@ -71,6 +73,30 @@ namespace PTHome.ServiceLayer
         {
             _logger.LogInformation("ReadUserById Method calling in Service Layer");
             return await _crudApplicationRL.ReadUserById(request);
+        }
+
+        public async Task<AddContractResponse> AddContract(AddContractRequest request)
+        {
+            _logger.LogInformation("AddContract Method calling in Service Layer");
+            return await _crudApplicationRL.AddContract(request);
+        }
+
+        public async Task<ReadAllContractResponse> ReadAllContract()
+        {
+            _logger.LogInformation("ReadAllContract Method calling in Service Layer");
+            return await _crudApplicationRL.ReadAllContract();
+        }
+
+        public async Task<AddContractHistoryResponse> AddContractHistory(AddContractHistoryRequest request)
+        {
+            _logger.LogInformation("AddContractHistory Method calling in Service Layer");
+            return await _crudApplicationRL.AddContractHistory(request);
+        }
+
+        public async Task<ReadAllContractHistoryResponse> ReadAllContractHistory()
+        {
+            _logger.LogInformation("ReadAllContractHistory Method calling in Service Layer");
+            return await _crudApplicationRL.ReadAllContractHistory();
         }
     }
 }
